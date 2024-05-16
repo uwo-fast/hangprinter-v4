@@ -1,15 +1,3 @@
-;change log
-; idk past, prob new hp - 11-25-2022.g in fast onedrive
-; jan 24th 2023, tuning e steps (didnt change anything)
-; jan 31st, 2023, heater tuning using M303 H1 S400
-; jan 31st, 2023, changed M208 to minimum of Z-20
-; feb 7th, 2023, changed manual calbration
-; feb 7th, 2023, changed M666 H251:255:255:255 from M666 H255:255:255:255
-; apr 14th, 2023, changed M204 P### from 2000 to 1500
-; may 2, 2023 changed man cal
-; may 2, 2023 changed M204 P### from 1500 to 1000
-; may 11, 2023, back on pt1000
-; may 3, 2024, M666 H256:255:255:251 to M666 H255:255:255:255
 
 ; Communication and general
 G21              ; Work in millimetres
