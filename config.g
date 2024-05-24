@@ -7,7 +7,7 @@ M83              ; ...but relative extruder moves
 ; Kinematics
 G4 S1                           ; Wait 1 second because expansion boards might not be ready to receive CAN signal yet.
 M584 X40.0 Y41.0 Z42.0 U43.0 P4 ; map ABCD-axes to CAN addresses, and set four visible axes. Please excuse that ABCD motors are called XYZU here.
-M584 E0:1:2:3:4:5               ; Regard all built in stepper drivers as extruder drives
+M584 E121.0:0:1:2:3:4:5         ; Regard all built in stepper drivers as extruder drives
 M669 K6                         ; "This is a Hangprinter"
 M669 P2000.0                    ; Printable radius (unused by Hangprinters for now)
 M669 S430 T0.1                  ; Segments per second and min segment length
@@ -45,12 +45,12 @@ M666 X70.0:70.0:70.0:70.0 ; Max planned force in four directions (unit N)
                           ; the limits of the reachable volume.
 M666 T13.715                ; Desired target force (unit N).
                           ; The flex compensation algorithm aims for at least
-                          ; this amount of fource in the ABC line directions at all times.
+                          ; this amount of force in the ABC line directions at all times.
                           ; It can be thought of as a minimum pre-tension value.
                           ; It's recommended to set it around 10 times higher
                           ; than your W (mover weight in kg) value.
 
-; Guy wire lengths. Needed for flex compenation.
+; Guy wire lengths. Needed for flex compensation.
 ; Guy wires go between spool and final line roller.
 ; If your spools are all mounted on the D-anchor, on the ceiling plate, then you're all good,
 ; and you don't need to configure M666 Y values explicitly.
@@ -106,27 +106,28 @@ M204 P1000 T4000                            ; Accelerations while printing and f
 M566 X240 Y240 Z1200 E1200                 ; Maximum instant speed changes mm/minute
 
 ; Currents
-M906 E1200 I60             ; Set motor currents (mA) and increase idle current to 60%
+M906 E1200 I60             ; Set motor currents (mA) and increase idle current to 60%. Note: Toolboard 1LC stepper current is 1.6A peak. Recommended to keep extruder current below 1.4A(1400mA) 
 
 ; Endstops
 M574 X0 Y0 Z0                                ; set endstop configuration (no endstops)
 
 ; Thermistors and heaters
-M308 S1 P"temp0" Y"pt1000" ; Configure sensor 1 as thermistor on temp1 SIKE jan7 2023 its now pt1000 GRAY WIRE
+; M308 S1 P"temp0" Y"pt1000" ; Configure sensor 1 as thermistor on temp1 SIKE jan7 2023 its now pt1000 GRAY WIRE
 ; M308 S1 P"temp0" Y"thermistor" T100000 B3950 ; BLUE WIRE THERMOSITOR
-M950 H1 C"out1" T1                           ; create nozzle heater output on out1 and map it to sensor 1
-M307 H1 B0 S1.00                             ; disable bang-bang mode for nozzle heater and set PWM limit
-M307 H1 R1.218 K0.362:0.000 D7.95 E1.35 S1.00 B0 V21.4 ; heater tuning using M303 H1 S400 on jan 31st, 2023
-M143 H1 S485                                 ; set temp limit for nozzle heater to 280C
+
+M308 S1 P"121.temp0" Y"thermistor" T100000 B4725 C7.06e-8 ; Configure sensor 1 as thermistor on temp0 of tool board 1LC (For REVO Hotend: Should work for both 40W and 60W Heater Cores)
+M950 H1 C"121.out0" T1                                    ; create nozzle heater output on out0 of toolboard 1LC and map it to sensor 1
+M307 H1 B0 S1.00                                          ; disable bang-bang mode for nozzle heater and set PWM limit
+;M307 H1 R1.218 K0.362:0.000 D7.95 E1.35 S1.00 B0 V21.4 ; heater tuning using M303 H1 S400 on jan 31st, 2023
+M143 H1 S285                                 ; set temp limit for nozzle heater to 285C
 M570 S180                                    ; Hot end may be a little slow to heat up so allow it 180 seconds
 
 ; Fans
-M950 F1 C"out7"
-M106 P1 X255 T45 H1                                ; Enable Fan 1 thermostatic mode for sensor or heater 1 at 45 degrees
-M950 F0 C"out8"                                    ; Defines a part cooling fan
+M950 F1 C"121.out2" Q500                         ; Create Fan 1 on pin 121.out2 and set its frequency
+M106 P1 S1 H1 T45                                ; set fan 1 value. Thermostatic control is turned on @45degC
 
-; Find "temp0" and "out7" pins in the wiring diagram:
-; https://duet3d.dozuki.com/Wiki/Duet_3_Mainboard_6HC_Wiring_Diagram
+; Find "121.temp0" and "121.out2" pins in the wiring diagram:
+; https://docs.duet3d.com/duet_boards/duet_3_can_expansion/duet3_tb_1lc_v1.3_d1.0_wiring.png
 
 ; Bltouch
 ; If you have a bltouch, see
@@ -144,9 +145,13 @@ G31 X15 Y27 Z8 P25 ; Measure these values in your own setup.
 ; G29 S1 ; Load the default heightmap.csv and enable grid compensation
 
 
-; Tool definitions
-M563 P0 D0 H1                                      ; Tool number 0, with extruder drive 0 uses heater 1 and no fan
-G10 P0 S0 R0                                       ; Set initial tool 0 active at standby temperature 0
+; Tool definitions    -->For more info on how to define tools, please refer to https://docs.duet3d.com/en/User_manual/Reference/Gcodes and look for M563. Very Important not to get wrong. 
+
+; For the E3D Hemera REVO filament extruder
+M563 P0 S"Hemera REVO" D0 H1 F0                  ; Tool number 0, with extruder drive E0 uses heater 1 and no partcooling fan. NOTE: E0 is NOT the stepper driver name on the board but rather the order in which extruders are defined in M584 after XYZ (i.e E0, E1..etc)
+G10 P0 X0 Y0 Z0                                  ; set tool 0 axis offsets
+G10 P0 S0 R0                                     ; Set initial tool 0 active at standby temperature 0
+
 
 ; Miscellaneous
 M92 E391.50                                           ; Set extruder steps per mm
