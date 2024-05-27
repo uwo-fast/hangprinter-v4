@@ -6,7 +6,7 @@ The Hangprinter v4 is a an open-source RepRap 3D printer with a minimalist desig
 
 Main Project Page:
 
-[https://www.appropedia.org/FAST%27s_Hangprinter_v4](https://www.appropedia.org/FAST%27s_Hangprinter_v4)
+[https://www.appropedia.org/FAST's_Hangprinter_v4](https://www.appropedia.org/FAST's_Hangprinter_v4)
 
 GitHub:
 
