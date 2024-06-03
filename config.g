@@ -1,4 +1,3 @@
-
 ; Communication and general
 G21              ; Work in millimetres
 G90              ; Send absolute coordinates...
@@ -13,7 +12,7 @@ M669 P2000.0                    ; Printable radius (unused by Hangprinters for n
 M669 S430 T0.1                  ; Segments per second and min segment length
 
 ; Output of auto calibration script for Hangprinter
-;MAN CAL of mar 21/2023
+; MAN CAL of mar 21/2023
 M669 A0.0:-595:-29.3 B866:488:-29.3 C-831:493:-29.3 D0:0:2378.075
 
 M666 Q0.03125 R76.0:76.0:76.0:76.0
@@ -22,7 +21,7 @@ M666 Q0.03125 R76.0:76.0:76.0:76.0
 ; ; M666 sets Q=spool buildup, R=spool radii (incl buildup, when homed)
 
 M208 Z2158.72  ; set maximum Z somewhere below D anchor. See M669 ... D<number>
-M208 S1 Z-20.0 ; set minimum Z
+M208 S1 Z-10.0 ; set minimum Z
 
 ; The following values must also be in the auto calibration script for Hangprinter (if you plan to use it)
 M666 U2:2:2:4         ; Mechanical advantages on ABCD
@@ -32,8 +31,8 @@ M666 H255:255:255:255 ; Spool gear teeth of ABCD axes
 
 ; Flex compensation
 ; M666 W0.0
-; AS OF MAY 14TH 2024, NEEDS TO UPDATE for alum and new extruder
-M666 W1.3715                 ; Mover weighs 1 kg. Set to 0 to disable flex compensation.
+; AS OF June 3rd 2024; 2.375kg is alum triangle + filament mount + ect.
+M666 W2.375                 ; Mover weighs _ kg. Set to 0 to disable flex compensation.
 M666 S49540.66713            ; Spring constant (rough approximation) for Garda 1.1 mm line (unit N/m).
                           ; The real value is somewhere between 20k and 100k.
                           ; Lower value gives more flex compensation.
@@ -102,7 +101,7 @@ M569 P43.0 S0 ; Drive 43.0 (D) goes backwards
 ; Speeds and accelerations
 M201 X10000 Y10000 Z10000 U10000 E1000       ; Max accelerations (mm/s^2)
 M203 X36000 Y36000 Z36000 E3600              ; Max speeds (mm/min)
-M204 P1000 T4000                            ; Accelerations while printing and for travel moves
+M204 P2000 T4000                            ; Accelerations while printing and for travel moves
 M566 X240 Y240 Z1200 E1200                 ; Maximum instant speed changes mm/minute
 
 ; Currents
@@ -112,8 +111,6 @@ M906 E1200 I60             ; Set motor currents (mA) and increase idle current t
 M574 X0 Y0 Z0                                ; set endstop configuration (no endstops)
 
 ; Thermistors and heaters
-; M308 S1 P"temp0" Y"pt1000" ; Configure sensor 1 as thermistor on temp1 SIKE jan7 2023 its now pt1000 GRAY WIRE
-; M308 S1 P"temp0" Y"thermistor" T100000 B3950 ; BLUE WIRE THERMOSITOR
 
 M308 S1 P"121.temp0" Y"thermistor" T100000 B4725 C7.06e-8 ; Configure sensor 1 as thermistor on temp0 of tool board 1LC (For REVO Hotend: Should work for both 40W and 60W Heater Cores)
 M950 H1 C"121.out0" T1                                    ; create nozzle heater output on out0 of toolboard 1LC and map it to sensor 1
