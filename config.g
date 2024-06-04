@@ -12,7 +12,7 @@ M669 P2000.0                    ; Printable radius (unused by Hangprinters for n
 M669 S430 T0.1                  ; Segments per second and min segment length
 
 ; Output of auto calibration script for Hangprinter
-; MAN CAL of mar 21/2023
+; MAN CAL of June 4, 2024
 M669 A0.0:-1120:-59.7 B990.5:590:-59.7 C-984:596:-59.7 D0:0:2349
 
 M666 Q0.03125 R76.0:76.0:76.0:76.0
