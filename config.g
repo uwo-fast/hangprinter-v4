@@ -13,7 +13,7 @@ M669 S430 T0.1                  ; Segments per second and min segment length
 
 ; Output of auto calibration script for Hangprinter
 ; MAN CAL of mar 21/2023
-M669 A0.0:-595:-29.3 B866:488:-29.3 C-831:493:-29.3 D0:0:2378.075
+M669 A0.0:-1120:-59.7 B990.5:590:-59.7 C-984:596:-59.7 D0:0:2349
 
 M666 Q0.03125 R76.0:76.0:76.0:76.0
 ; Explanation:
