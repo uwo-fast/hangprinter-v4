@@ -11,7 +11,8 @@
 ; and target force, ODrive torque constants enabled, drive 0 reversed,
 ; heater, fan and extruder moved to a Duet 3 Toolboard 1LC for an E3D
 ; Hemera with a Revo hotend, and the tool definition. Two comment typos
-; corrected.
+; corrected. Comments for drive 0 and the mover weight corrected in
+; November 2026.
 
 ; Communication and general
 G21              ; Work in millimetres
@@ -46,8 +47,8 @@ M666 H255:255:255:255 ; Spool gear teeth of ABCD axes
 
 ; Flex compensation
 ; M666 W0.0
-; AS OF June 3rd 2024; 2.375kg is alum triangle + filament mount + ect.
-M666 W2.375                 ; Mover weighs _ kg. Set to 0 to disable flex compensation.
+; AS OF June 3rd 2024; 2.375kg is alum triangle + filament mount + etc.
+M666 W2.375                 ; Mover weighs 2.375 kg. Set to 0 to disable flex compensation.
 M666 S49540.66713            ; Spring constant (rough approximation) for Garda 1.1 mm line (unit N/m).
                           ; The real value is somewhere between 20k and 100k.
                           ; Lower value gives more flex compensation.
@@ -85,7 +86,7 @@ M666 C0.025061:0.025061:0.025061:0.025061
 ; Drives
 M666 J25:25:25:25 ; Full steps per ABCD motor revolution (match with ODrives...)
 
-M569 P0 S0 ; Drive 0 goes forwards SIKE BACKWARDS
+M569 P0 S0 ; Drive 0 goes backwards
 M569 P1 S1 ; Drive 1 goes forwards
 M569 P2 S1 ; Drive 2 goes forwards
 M569 P3 S1 ; Drive 3 goes forwards
