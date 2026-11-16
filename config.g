@@ -1,3 +1,18 @@
+; SPDX-License-Identifier: GPL-2.0-only
+;
+; Based on firmware/RepRapFirmware/Duet3/config.g from Hangprinter by
+; Torbjorn Ludvigsen (https://gitlab.com/tobben/hangprinter), branch
+; version_4, commit 6053a47b1f5673a70ca5bf855d5464b64fb408f4 (2022-03-24),
+; licensed GPL-2.0.
+;
+; Modified for FAST's Hangprinter v4 build at Western University by
+; Jahangir (Janik) Abdullayev and Ravneet Rattan, May-June 2024: anchor
+; calibration and spool values, maximum Z, mover weight, spring constant
+; and target force, ODrive torque constants enabled, drive 0 reversed,
+; heater, fan and extruder moved to a Duet 3 Toolboard 1LC for an E3D
+; Hemera with a Revo hotend, and the tool definition. Two comment typos
+; corrected.
+
 ; Communication and general
 G21              ; Work in millimetres
 G90              ; Send absolute coordinates...
